@@ -1,0 +1,1 @@
+Set-Location "c:\Users\Admin\OneDrive\Desktop\maCHA SYSTEM"; py -3 -m pip install -r requirements.txt; py -3 -c "from app import create_app; app=create_app(); print(app.test_client().get('/').data.decode())"
