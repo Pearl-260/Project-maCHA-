@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Contribution | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 720px; margin: 40px auto;">
+      <section class="panel">
+        <h2>Add Contribution</h2>
+        <p class="muted">Record a new member contribution payment.</p>
+
+        <form>
+          <label for="member">Member</label>
+          <select id="member" name="member" required>
+            <option value="">Select a member</option>
+            <option value="John Mwangi">John Mwangi</option>
+            <option value="Grace Njeri">Grace Njeri</option>
+            <option value="David Kipchoge">David Kipchoge</option>
+          </select>
+
+          <label for="group">Group</label>
+          <select id="group" name="group" required>
+            <option value="">Select a group</option>
+            <option value="Group A">Group A</option>
+            <option value="Group B">Group B</option>
+          </select>
+
+          <label for="amount">Contribution Amount</label>
+          <input id="amount" name="amount" type="number" min="0" step="0.01" required />
+
+          <label for="payment_date">Payment Date</label>
+          <input id="payment_date" name="payment_date" type="date" required />
+
+          <label for="payment_status">Payment Status</label>
+          <select id="payment_status" name="payment_status" required>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="Failed">Failed</option>
+          </select>
+
+          <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
+            <button type="submit" class="add-btn">Save</button>
+            <a href="{{ url_for('contributions') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

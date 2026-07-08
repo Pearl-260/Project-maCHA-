@@ -15,15 +15,15 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="#" class="active">Dashboard</a>
+          <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
           <a href="{{ url_for('members') }}">Members</a>
-          <a href="#">Groups</a>
-          <a href="#">Contributions</a>
-          <a href="#">Payments</a>
-          <a href="#">Reports</a>
-          <a href="#">Notifications</a>
-          <a href="#">Settings</a>
-          <a href="#">Logout</a>
+          <a href="{{ url_for('groups') }}">Groups</a>
+          <a href="{{ url_for('contributions') }}">Contributions</a>
+          <a href="{{ url_for('payouts') }}">Payments</a>
+          <a href="{{ url_for('reports') }}">Reports</a>
+          <a href="{{ url_for('notifications') }}">Notifications</a>
+          <a href="{{ url_for('settings') }}">Settings</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
       </aside>
 
@@ -76,5 +76,6 @@
         </section>
       </main>
     </div>
+    <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
   </body>
 </html>

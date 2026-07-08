@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send Notification | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 720px; margin: 40px auto;">
+      <section class="panel">
+        <h2>Send Notification</h2>
+        <p class="muted">Compose and send a notification to members or groups.</p>
+
+        <form>
+          <label for="recipient">Recipient</label>
+          <select id="recipient" name="recipient" required>
+            <option value="">Select recipient</option>
+            <option value="All Members">All Members</option>
+            <option value="Group A">Group A</option>
+            <option value="Group B">Group B</option>
+            <option value="John Mwangi">John Mwangi</option>
+            <option value="Grace Njeri">Grace Njeri</option>
+          </select>
+
+          <label for="notification_type">Notification Type</label>
+          <select id="notification_type" name="notification_type" required>
+            <option value="">Select notification type</option>
+            <option value="Email">Email</option>
+            <option value="SMS">SMS</option>
+            <option value="In-App">In-App</option>
+          </select>
+
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" placeholder="Notification subject" required />
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Enter your message here..." rows="6" required></textarea>
+
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority" required>
+            <option value="">Select priority</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+
+          <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
+            <button type="submit" class="add-btn">Send</button>
+            <a href="{{ url_for('notifications') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

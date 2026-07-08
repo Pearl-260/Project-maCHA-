@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Payout | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 720px; margin: 40px auto;">
+      <section class="panel">
+        <h2>Add Payout</h2>
+        <p class="muted">Record a new member payout or disbursement.</p>
+
+        <form>
+          <label for="beneficiary">Beneficiary</label>
+          <select id="beneficiary" name="beneficiary" required>
+            <option value="">Select a beneficiary</option>
+            <option value="Sarah Mutua">Sarah Mutua</option>
+            <option value="Peter Kimani">Peter Kimani</option>
+            <option value="Jane Wawira">Jane Wawira</option>
+          </select>
+
+          <label for="group">Group</label>
+          <select id="group" name="group" required>
+            <option value="">Select a group</option>
+            <option value="Group A">Group A</option>
+            <option value="Group B">Group B</option>
+          </select>
+
+          <label for="amount">Amount</label>
+          <input id="amount" name="amount" type="number" min="0" step="0.01" required />
+
+          <label for="payout_date">Payout Date</label>
+          <input id="payout_date" name="payout_date" type="date" required />
+
+          <label for="status">Status</label>
+          <select id="status" name="status" required>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Failed">Failed</option>
+          </select>
+
+          <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
+            <button type="submit" class="add-btn">Save</button>
+            <a href="{{ url_for('payouts') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

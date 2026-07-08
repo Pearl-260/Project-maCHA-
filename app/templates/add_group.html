@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Group | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 720px; margin: 40px auto;">
+      <section class="panel">
+        <h2>Add Group</h2>
+        <p class="muted">Create a new chama group with the details below.</p>
+
+        <form>
+          <label for="group_name">Group Name</label>
+          <input id="group_name" name="group_name" type="text" required />
+
+          <label for="monthly_contribution">Monthly Contribution Amount</label>
+          <input id="monthly_contribution" name="monthly_contribution" type="number" min="0" step="0.01" required />
+
+          <label for="meeting_day">Meeting Day</label>
+          <input id="meeting_day" name="meeting_day" type="text" placeholder="e.g. Every Friday" required />
+
+          <label for="max_members">Maximum Members</label>
+          <input id="max_members" name="max_members" type="number" min="1" required />
+
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
+            <button type="submit" class="add-btn">Save</button>
+            <a href="{{ url_for('dashboard') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

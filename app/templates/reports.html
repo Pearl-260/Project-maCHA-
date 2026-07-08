@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reports | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <h2>ChamaHub</h2>
+          <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('members') }}">Members</a>
+          <a href="{{ url_for('groups') }}">Groups</a>
+          <a href="{{ url_for('contributions') }}">Contributions</a>
+          <a href="{{ url_for('payouts') }}">Payments</a>
+          <a href="{{ url_for('reports') }}" class="active">Reports</a>
+          <a href="{{ url_for('notifications') }}">Notifications</a>
+          <a href="{{ url_for('settings') }}">Settings</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1>Reports</h1>
+            <p>View comprehensive system reports and analytics</p>
+          </div>
+          <button id="printBtn" class="add-btn">Print Report</button>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="summary-grid">
+          <div class="card">
+            <h3>Total Members</h3>
+            <p class="value">128</p>
+          </div>
+          <div class="card">
+            <h3>Total Groups</h3>
+            <p class="value">12</p>
+          </div>
+          <div class="card">
+            <h3>Total Contributions</h3>
+            <p class="value">KSh 2,540,000</p>
+          </div>
+          <div class="card">
+            <h3>Total Payouts</h3>
+            <p class="value">KSh 1,820,000</p>
+          </div>
+          <div class="card">
+            <h3>Pending Payments</h3>
+            <p class="value">7</p>
+          </div>
+          <div class="card">
+            <h3>Active Groups</h3>
+            <p class="value">10</p>
+          </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="panel">
+          <h3>Filters</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            <div>
+              <label for="filterDateFrom">Date From</label>
+              <input id="filterDateFrom" type="date" />
+            </div>
+            <div>
+              <label for="filterDateTo">Date To</label>
+              <input id="filterDateTo" type="date" />
+            </div>
+            <div>
+              <label for="filterGroup">Group</label>
+              <select id="filterGroup">
+                <option value="">All Groups</option>
+                <option value="Group A">Group A</option>
+                <option value="Group B">Group B</option>
+              </select>
+            </div>
+            <div>
+              <label for="filterMember">Member</label>
+              <input id="filterMember" type="text" placeholder="Search member..." />
+            </div>
+          </div>
+        </section>
+
+        <!-- Monthly Contributions Report -->
+        <section class="panel">
+          <h3>Monthly Contributions</h3>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Total Members Contributed</th>
+                  <th>Total Amount</th>
+                  <th>Average Contribution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>July 2026</td>
+                  <td>125</td>
+                  <td>KSh 625,000</td>
+                  <td>KSh 5,000</td>
+                </tr>
+                <tr>
+                  <td>June 2026</td>
+                  <td>122</td>
+                  <td>KSh 610,000</td>
+                  <td>KSh 5,000</td>
+                </tr>
+                <tr>
+                  <td>May 2026</td>
+                  <td>120</td>
+                  <td>KSh 595,000</td>
+                  <td>KSh 4,958</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Member Contributions Report -->
+        <section class="panel">
+          <h3>Top Contributors</h3>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Member Name</th>
+                  <th>Group</th>
+                  <th>Total Contributions</th>
+                  <th>Number of Payments</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>John Mwangi</td>
+                  <td>Group A</td>
+                  <td>KSh 50,000</td>
+                  <td>10</td>
+                  <td><span class="status active">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Grace Njeri</td>
+                  <td>Group B</td>
+                  <td>KSh 45,000</td>
+                  <td>9</td>
+                  <td><span class="status active">Active</span></td>
+                </tr>
+                <tr>
+                  <td>David Kipchoge</td>
+                  <td>Group A</td>
+                  <td>KSh 42,000</td>
+                  <td>8</td>
+                  <td><span class="status active">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Payouts Report -->
+        <section class="panel">
+          <h3>Payout History</h3>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Beneficiary</th>
+                  <th>Group</th>
+                  <th>Payout Amount</th>
+                  <th>Payout Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sarah Mutua</td>
+                  <td>Group A</td>
+                  <td>KSh 50,000</td>
+                  <td>2026-06-15</td>
+                  <td><span class="status active">Completed</span></td>
+                </tr>
+                <tr>
+                  <td>Peter Kimani</td>
+                  <td>Group B</td>
+                  <td>KSh 40,000</td>
+                  <td>2026-06-01</td>
+                  <td><span class="status active">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
+  </body>
+</html>

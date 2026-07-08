@@ -43,4 +43,49 @@ def create_app():
     def add_member_page():
         return render_template('add_member.html')
 
+    @app.route('/groups')
+    def groups():
+        return render_template('groups.html')
+
+    @app.route('/add-group')
+    def add_group_page():
+        return render_template('add_group.html')
+
+    @app.route('/contributions')
+    def contributions():
+        return render_template('contributions.html')
+
+    @app.route('/add-contribution')
+    def add_contribution_page():
+        return render_template('add_contribution.html')
+
+    @app.route('/reports')
+    def reports():
+        return render_template('reports.html')
+
+    @app.route('/payouts')
+    def payouts():
+        return render_template('payouts.html')
+
+    @app.route('/add-payout')
+    def add_payout_page():
+        return render_template('add_payout.html')
+
+    @app.route('/notifications')
+    def notifications():
+        return render_template('notifications.html')
+
+    @app.route('/send-notification')
+    def send_notification_page():
+        return render_template('send_notification.html')
+
+    @app.route('/settings')
+    def settings():
+        return render_template('settings.html')
+
+    @app.route('/logout')
+    def logout():
+        # Clear user session (placeholder - actual session logic to be added with authentication)
+        return redirect(url_for('login'))
+
     return app

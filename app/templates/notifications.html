@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <h2>ChamaHub</h2>
+          <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('members') }}">Members</a>
+          <a href="{{ url_for('groups') }}">Groups</a>
+          <a href="{{ url_for('contributions') }}">Contributions</a>
+          <a href="{{ url_for('payouts') }}">Payments</a>
+          <a href="{{ url_for('reports') }}">Reports</a>
+          <a href="{{ url_for('notifications') }}" class="active">Notifications</a>
+          <a href="{{ url_for('settings') }}">Settings</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1>Notifications</h1>
+            <p>View and manage system notifications</p>
+          </div>
+          <a href="{{ url_for('send_notification_page') }}" class="add-btn">Send Notification</a>
+        </header>
+
+        <section class="panel">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Message</th>
+                  <th>Recipient</th>
+                  <th>Date</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Contribution Payment Due</td>
+                  <td>Your monthly contribution is due on 1st of next month</td>
+                  <td>John Mwangi</td>
+                  <td>2026-07-08 09:30</td>
+                  <td><span style="background: #fecaca; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">High</span></td>
+                  <td><span class="status active">Read</span></td>
+                </tr>
+                <tr>
+                  <td>New Member Added</td>
+                  <td>Grace Njeri has been added to Group B</td>
+                  <td>All Members</td>
+                  <td>2026-07-07 14:15</td>
+                  <td><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Medium</span></td>
+                  <td><span class="status pending">Unread</span></td>
+                </tr>
+                <tr>
+                  <td>Payout Completed</td>
+                  <td>Your payout of KSh 50,000 has been processed</td>
+                  <td>Sarah Mutua</td>
+                  <td>2026-07-06 11:45</td>
+                  <td><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Low</span></td>
+                  <td><span class="status active">Read</span></td>
+                </tr>
+                <tr>
+                  <td>Group Meeting Reminder</td>
+                  <td>Group A meeting is scheduled for Friday at 3 PM</td>
+                  <td>Group A Members</td>
+                  <td>2026-07-05 10:00</td>
+                  <td><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Medium</span></td>
+                  <td><span class="status active">Read</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
+  </body>
+</html>
