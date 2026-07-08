@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <h2>ChamaHub</h2>
+          <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="active">Dashboard</a>
+          <a href="{{ url_for('members') }}">Members</a>
+          <a href="#">Groups</a>
+          <a href="#">Contributions</a>
+          <a href="#">Payments</a>
+          <a href="#">Reports</a>
+          <a href="#">Notifications</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Welcome back, John Mwangi</p>
+          </div>
+          <div class="topbar-user">
+            <span>John Mwangi</span>
+            <div class="avatar">JM</div>
+          </div>
+        </header>
+
+        <section class="summary-grid">
+          <div class="card">
+            <h3>Total Members</h3>
+            <p class="value">128</p>
+          </div>
+          <div class="card">
+            <h3>Active Groups</h3>
+            <p class="value">12</p>
+          </div>
+          <div class="card">
+            <h3>Monthly Contributions</h3>
+            <p class="value">KSh 845,000</p>
+          </div>
+          <div class="card">
+            <h3>Pending Payments</h3>
+            <p class="value">7</p>
+          </div>
+        </section>
+
+        <section class="detail-grid">
+          <div class="panel">
+            <h3>Next Beneficiary</h3>
+            <p class="value">Grace Njeri</p>
+            <p class="muted">Scheduled for next payout cycle</p>
+          </div>
+
+          <div class="panel">
+            <h3>Recent Activity</h3>
+            <ul class="activity-list">
+              <li>John paid contribution for May</li>
+              <li>Payment reminder sent to 3 members</li>
+              <li>Monthly report generated successfully</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

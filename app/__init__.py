@@ -14,7 +14,7 @@ def create_app():
             email = request.form.get('email')
             password = request.form.get('password')
             print('Login submitted:', email, password)
-            return redirect(url_for('home'))
+            return redirect(url_for('dashboard'))
 
         return render_template('login.html')
 
@@ -30,5 +30,17 @@ def create_app():
             return redirect(url_for('home'))
 
         return render_template('register.html')
+
+    @app.route('/dashboard')
+    def dashboard():
+        return render_template('dashboard.html')
+
+    @app.route('/members')
+    def members():
+        return render_template('members.html')
+
+    @app.route('/add-member')
+    def add_member_page():
+        return render_template('add_member.html')
 
     return app

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Add Member | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width:720px;margin:40px auto;">
+      <section class="panel">
+        <h2>Add Member</h2>
+        <p class="muted">Fill out the form to add a new member to the chama.</p>
+
+        <form id="addMemberForm" method="POST" action="{{ url_for('add_member') }}">
+          <label for="full_name">Full Name</label>
+          <input id="full_name" name="full_name" required />
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" />
+
+          <label for="group">Group</label>
+          <input id="group" name="group" />
+
+          <label for="join_date">Join Date</label>
+          <input id="join_date" name="join_date" type="date" />
+
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option>Active</option>
+            <option>Pending</option>
+            <option>Inactive</option>
+          </select>
+
+          <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end;">
+            <button type="submit" class="add-btn">Save Member</button>
+            <a href="{{ url_for('members') }}" class="action-btn" style="display:inline-block;padding:10px 12px;border-radius:8px;text-decoration:none;">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

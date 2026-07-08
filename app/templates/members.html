@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members | Chama Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <h2>ChamaHub</h2>
+          <p>Management System</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('members') }}" class="active">Members</a>
+          <a href="#">Groups</a>
+          <a href="#">Contributions</a>
+          <a href="#">Payments</a>
+          <a href="#">Reports</a>
+          <a href="#">Notifications</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1>Members</h1>
+            <p>Manage registered chama members</p>
+          </div>
+          <a href="{{ url_for('add_member_page') }}" id="openMemberModal" class="add-btn">Add Member</a>
+        </header>
+
+        <section class="panel">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone Number</th>
+                  <th>Email</th>
+                  <th>Group</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <tr>
+                  <td>John Mwangi</td>
+                  <td>0712345678</td>
+                  <td>john@example.com</td>
+                  <td>Group A</td>
+                  <td><span class="status active">Active</span></td>
+                  <td>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Grace Njeri</td>
+                  <td>0723456789</td>
+                  <td>grace@example.com</td>
+                  <td>Group B</td>
+                  <td><span class="status pending">Pending</span></td>
+                  <td>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- Add Member Modal -->
+        <div id="memberModal" class="modal" aria-hidden="true">
+          <div class="modal-content">
+            <button id="closeModalBtn" class="action-btn" style="float:right;">&times;</button>
+            <h3 id="modalTitle">Add Member</h3>
+            <form id="memberForm">
+              <input type="hidden" id="memberIndex" value="" />
+              <label for="memberName">Full Name</label>
+              <input id="memberName" name="name" required />
+
+              <label for="memberPhone">Phone Number</label>
+              <input id="memberPhone" name="phone" />
+
+              <label for="memberEmail">Email</label>
+              <input id="memberEmail" name="email" type="email" required />
+
+              <label for="memberGroup">Group</label>
+              <input id="memberGroup" name="group" />
+
+              <label for="memberStatus">Status</label>
+              <select id="memberStatus" name="status">
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+
+              <div class="modal-actions">
+                <button type="submit" class="add-btn">Save</button>
+                <button type="button" id="cancelModalBtn" class="action-btn">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/members.js') }}"></script>
+  </body>
+</html>
