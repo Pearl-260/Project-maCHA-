@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Payout | Chama Management System</title>
+    <title>Edit Payout | Chama Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
   </head>
   <body>
     <main class="main-content" style="max-width: 720px; margin: 40px auto;">
       <section class="panel">
-        <h2>Add Payout</h2>
-        <p class="muted">Record a new member payout or disbursement.</p>
+        <h2>Edit Payout</h2>
+        <p class="muted">Update the selected payout record.</p>
 
-        <form method="POST" action="{{ url_for('main.add_payout_page') }}">
+        <form method="POST" action="{{ url_for('main.edit_payout', payout_id=payout.id) }}">
           <label for="beneficiary">Beneficiary</label>
           <select id="beneficiary" name="beneficiary" required>
             <option value="">Select a beneficiary</option>
             {% for member in members %}
-            <option value="{{ member.full_name }}">{{ member.full_name }}</option>
+            <option value="{{ member.full_name }}" {% if member.full_name == payout.beneficiary_name %}selected{% endif %}>{{ member.full_name }}</option>
             {% endfor %}
           </select>
 
@@ -25,32 +25,32 @@
           <select id="group" name="group" required>
             <option value="">Select a group</option>
             {% for group in groups %}
-            <option value="{{ group.group_name }}">{{ group.group_name }}</option>
+            <option value="{{ group.group_name }}" {% if group.group_name == payout.group_name %}selected{% endif %}>{{ group.group_name }}</option>
             {% endfor %}
           </select>
 
           <label for="amount">Amount</label>
-          <input id="amount" name="amount" type="number" min="0" step="0.01" required />
+          <input id="amount" name="amount" type="number" min="0" step="0.01" value="{{ payout.amount }}" required />
 
           <label for="payout_date">Payout Date</label>
-          <input id="payout_date" name="payout_date" type="date" required />
+          <input id="payout_date" name="payout_date" type="date" value="{{ payout.payout_date }}" required />
 
           <label for="payment_method">Payment Method</label>
           <select id="payment_method" name="payment_method" required>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="M-Pesa">M-Pesa</option>
-            <option value="Cash">Cash</option>
+            <option value="Bank Transfer" {% if payout.payment_method == 'Bank Transfer' %}selected{% endif %}>Bank Transfer</option>
+            <option value="M-Pesa" {% if payout.payment_method == 'M-Pesa' %}selected{% endif %}>M-Pesa</option>
+            <option value="Cash" {% if payout.payment_method == 'Cash' %}selected{% endif %}>Cash</option>
           </select>
 
           <label for="status">Status</label>
           <select id="status" name="status" required>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-            <option value="Failed">Failed</option>
+            <option value="Pending" {% if payout.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Completed" {% if payout.status == 'Completed' %}selected{% endif %}>Completed</option>
+            <option value="Failed" {% if payout.status == 'Failed' %}selected{% endif %}>Failed</option>
           </select>
 
           <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
-            <button type="submit" class="add-btn">Save</button>
+            <button type="submit" class="add-btn">Update</button>
             <a href="{{ url_for('main.payouts') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
           </div>
         </form>

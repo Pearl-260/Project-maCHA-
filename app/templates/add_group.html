@@ -12,7 +12,7 @@
         <h2>Add Group</h2>
         <p class="muted">Create a new chama group with the details below.</p>
 
-        <form>
+        <form method="POST" action="{{ url_for('main.add_group') }}">
           <label for="group_name">Group Name</label>
           <input id="group_name" name="group_name" type="text" required />
 
@@ -34,7 +34,7 @@
 
           <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end;">
             <button type="submit" class="add-btn">Save</button>
-            <a href="{{ url_for('dashboard') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
+            <a href="{{ url_for('main.dashboard') }}" class="action-btn" style="display: inline-block; padding: 10px 12px; border-radius: 8px; text-decoration: none;">Cancel</a>
           </div>
         </form>
       </section>

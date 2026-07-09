@@ -12,7 +12,7 @@
         <h2>Add Member</h2>
         <p class="muted">Fill out the form to add a new member to the chama.</p>
 
-        <form id="addMemberForm" method="POST" action="{{ url_for('add_member') }}">
+        <form id="addMemberForm" method="POST" action="{{ url_for('main.add_member') }}">
           <label for="full_name">Full Name</label>
           <input id="full_name" name="full_name" required />
 
@@ -37,7 +37,7 @@
 
           <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end;">
             <button type="submit" class="add-btn">Save Member</button>
-            <a href="{{ url_for('members') }}" class="action-btn" style="display:inline-block;padding:10px 12px;border-radius:8px;text-decoration:none;">Cancel</a>
+            <a href="{{ url_for('main.members') }}" class="action-btn" style="display:inline-block;padding:10px 12px;border-radius:8px;text-decoration:none;">Cancel</a>
           </div>
         </form>
       </section>

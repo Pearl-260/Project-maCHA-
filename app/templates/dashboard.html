@@ -15,15 +15,15 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
-          <a href="{{ url_for('members') }}">Members</a>
-          <a href="{{ url_for('groups') }}">Groups</a>
-          <a href="{{ url_for('contributions') }}">Contributions</a>
-          <a href="{{ url_for('payouts') }}">Payments</a>
-          <a href="{{ url_for('reports') }}">Reports</a>
-          <a href="{{ url_for('notifications') }}">Notifications</a>
-          <a href="{{ url_for('settings') }}">Settings</a>
-          <a href="{{ url_for('logout') }}">Logout</a>
+          <a href="{{ url_for('main.dashboard') }}" class="active">Dashboard</a>
+          <a href="{{ url_for('main.members') }}">Members</a>
+          <a href="{{ url_for('main.groups') }}">Groups</a>
+          <a href="{{ url_for('main.contributions') }}">Contributions</a>
+          <a href="{{ url_for('main.payouts') }}">Payments</a>
+          <a href="{{ url_for('main.reports') }}">Reports</a>
+          <a href="{{ url_for('main.notifications') }}">Notifications</a>
+          <a href="{{ url_for('main.settings') }}">Settings</a>
+          <a href="{{ url_for('main.logout') }}">Logout</a>
         </nav>
       </aside>
 
@@ -31,46 +31,49 @@
         <header class="topbar">
           <div>
             <h1>Dashboard</h1>
-            <p>Welcome back, John Mwangi</p>
+            <p>Welcome back, {{ profile_name }}</p>
           </div>
           <div class="topbar-user">
-            <span>John Mwangi</span>
-            <div class="avatar">JM</div>
+            <span>{{ profile_name }}</span>
+            <div class="avatar">{{ profile_initials }}</div>
           </div>
         </header>
 
         <section class="summary-grid">
           <div class="card">
             <h3>Total Members</h3>
-            <p class="value">128</p>
+            <p class="value">{{ member_count }}</p>
           </div>
           <div class="card">
-            <h3>Active Groups</h3>
-            <p class="value">12</p>
+            <h3>Total Groups</h3>
+            <p class="value">{{ group_count }}</p>
           </div>
           <div class="card">
-            <h3>Monthly Contributions</h3>
-            <p class="value">KSh 845,000</p>
+            <h3>Total Contributions</h3>
+            <p class="value">KSh {{ "{:,.2f}".format(contribution_total) }}</p>
           </div>
           <div class="card">
-            <h3>Pending Payments</h3>
-            <p class="value">7</p>
+            <h3>Total Payouts</h3>
+            <p class="value">KSh {{ "{:,.2f}".format(payout_total) }}</p>
           </div>
         </section>
 
         <section class="detail-grid">
           <div class="panel">
-            <h3>Next Beneficiary</h3>
-            <p class="value">Grace Njeri</p>
-            <p class="muted">Scheduled for next payout cycle</p>
+            <h3>Loan Summary</h3>
+            <p class="value">KSh {{ "{:,.2f}".format(loan_total) }}</p>
+            <p class="muted">{{ loan_count }} loan record{{ '' if loan_count == 1 else 's' }} available</p>
           </div>
 
           <div class="panel">
             <h3>Recent Activity</h3>
             <ul class="activity-list">
-              <li>John paid contribution for May</li>
-              <li>Payment reminder sent to 3 members</li>
-              <li>Monthly report generated successfully</li>
+              {% for activity in recent_activities %}
+              <li>
+                <strong>{{ activity.title }}</strong>
+                <span class="muted">{{ activity.meta }}</span>
+              </li>
+              {% endfor %}
             </ul>
           </div>
         </section>
