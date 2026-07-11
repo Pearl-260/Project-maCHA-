@@ -50,38 +50,22 @@
                 </tr>
               </thead>
               <tbody>
+                {% for notification in notifications %}
                 <tr>
-                  <td>Contribution Payment Due</td>
-                  <td>Your monthly contribution is due on 1st of next month</td>
-                  <td>John Mwangi</td>
-                  <td>2026-07-08 09:30</td>
-                  <td><span style="background: #fecaca; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">High</span></td>
-                  <td><span class="status active">Read</span></td>
+                  <td>{{ notification.title }}</td>
+                  <td>{{ notification.message }}</td>
+                  <td>{{ notification.recipient }}</td>
+                  <td>{{ notification.created_at }}</td>
+                  <td>
+                    <span class="badge {{ notification.priority | lower }}">{{ notification.priority }}</span>
+                  </td>
+                  <td><span class="status {{ notification.status.lower() }}">{{ notification.status }}</span></td>
                 </tr>
+                {% else %}
                 <tr>
-                  <td>New Member Added</td>
-                  <td>Grace Njeri has been added to Group B</td>
-                  <td>All Members</td>
-                  <td>2026-07-07 14:15</td>
-                  <td><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Medium</span></td>
-                  <td><span class="status pending">Unread</span></td>
+                  <td colspan="6">No notifications yet.</td>
                 </tr>
-                <tr>
-                  <td>Payout Completed</td>
-                  <td>Your payout of KSh 50,000 has been processed</td>
-                  <td>Sarah Mutua</td>
-                  <td>2026-07-06 11:45</td>
-                  <td><span style="background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Low</span></td>
-                  <td><span class="status active">Read</span></td>
-                </tr>
-                <tr>
-                  <td>Group Meeting Reminder</td>
-                  <td>Group A meeting is scheduled for Friday at 3 PM</td>
-                  <td>Group A Members</td>
-                  <td>2026-07-05 10:00</td>
-                  <td><span style="background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">Medium</span></td>
-                  <td><span class="status active">Read</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

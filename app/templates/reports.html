@@ -40,27 +40,27 @@
         <section class="summary-grid">
           <div class="card">
             <h3>Total Members</h3>
-            <p class="value">128</p>
+            <p class="value">{{ total_members }}</p>
           </div>
           <div class="card">
             <h3>Total Groups</h3>
-            <p class="value">12</p>
+            <p class="value">{{ total_groups }}</p>
           </div>
           <div class="card">
             <h3>Total Contributions</h3>
-            <p class="value">KSh 2,540,000</p>
+            <p class="value">KSh {{ "{:,.2f}".format(total_contribution_amount) }}</p>
           </div>
           <div class="card">
             <h3>Total Payouts</h3>
-            <p class="value">KSh 1,820,000</p>
+            <p class="value">KSh {{ "{:,.2f}".format(total_payout_amount) }}</p>
           </div>
           <div class="card">
             <h3>Pending Payments</h3>
-            <p class="value">7</p>
+            <p class="value">{{ pending_payments }}</p>
           </div>
           <div class="card">
             <h3>Active Groups</h3>
-            <p class="value">10</p>
+            <p class="value">{{ active_groups }}</p>
           </div>
         </section>
 
@@ -80,8 +80,9 @@
               <label for="filterGroup">Group</label>
               <select id="filterGroup">
                 <option value="">All Groups</option>
-                <option value="Group A">Group A</option>
-                <option value="Group B">Group B</option>
+                {% for group in groups %}
+                <option value="{{ group.group_name }}">{{ group.group_name }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
@@ -105,24 +106,18 @@
                 </tr>
               </thead>
               <tbody>
+                {% for month in monthly_contributions %}
                 <tr>
-                  <td>July 2026</td>
-                  <td>125</td>
-                  <td>KSh 625,000</td>
-                  <td>KSh 5,000</td>
+                  <td>{{ month.month }}</td>
+                  <td>{{ month.contributors }}</td>
+                  <td>KSh {{ "{:,.2f}".format(month.total_amount) }}</td>
+                  <td>KSh {{ "{:,.2f}".format(month.average) }}</td>
                 </tr>
+                {% else %}
                 <tr>
-                  <td>June 2026</td>
-                  <td>122</td>
-                  <td>KSh 610,000</td>
-                  <td>KSh 5,000</td>
+                  <td colspan="4">No contribution records available.</td>
                 </tr>
-                <tr>
-                  <td>May 2026</td>
-                  <td>120</td>
-                  <td>KSh 595,000</td>
-                  <td>KSh 4,958</td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -143,27 +138,19 @@
                 </tr>
               </thead>
               <tbody>
+                {% for contributor in top_contributors %}
                 <tr>
-                  <td>John Mwangi</td>
-                  <td>Group A</td>
-                  <td>KSh 50,000</td>
-                  <td>10</td>
+                  <td>{{ contributor.member_name }}</td>
+                  <td>{{ contributor.group_name }}</td>
+                  <td>KSh {{ "{:,.2f}".format(contributor.total_amount) }}</td>
+                  <td>{{ contributor.payment_count }}</td>
                   <td><span class="status active">Active</span></td>
                 </tr>
+                {% else %}
                 <tr>
-                  <td>Grace Njeri</td>
-                  <td>Group B</td>
-                  <td>KSh 45,000</td>
-                  <td>9</td>
-                  <td><span class="status active">Active</span></td>
+                  <td colspan="5">No contributor records available.</td>
                 </tr>
-                <tr>
-                  <td>David Kipchoge</td>
-                  <td>Group A</td>
-                  <td>KSh 42,000</td>
-                  <td>8</td>
-                  <td><span class="status active">Active</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -184,20 +171,19 @@
                 </tr>
               </thead>
               <tbody>
+                {% for payout in payout_history %}
                 <tr>
-                  <td>Sarah Mutua</td>
-                  <td>Group A</td>
-                  <td>KSh 50,000</td>
-                  <td>2026-06-15</td>
-                  <td><span class="status active">Completed</span></td>
+                  <td>{{ payout.beneficiary_name }}</td>
+                  <td>{{ payout.group_name }}</td>
+                  <td>KSh {{ "{:,.2f}".format(payout.amount) }}</td>
+                  <td>{{ payout.payout_date }}</td>
+                  <td><span class="status {{ payout.status.lower() }}">{{ payout.status }}</span></td>
                 </tr>
+                {% else %}
                 <tr>
-                  <td>Peter Kimani</td>
-                  <td>Group B</td>
-                  <td>KSh 40,000</td>
-                  <td>2026-06-01</td>
-                  <td><span class="status active">Completed</span></td>
+                  <td colspan="5">No payout records available.</td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

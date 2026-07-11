@@ -53,6 +53,24 @@ class Member(db.Model):
         return f"<Member {self.full_name}>"
 
 
+class  Settings(db.Model):
+    __tablename__ = "system_settings"
+
+    id = db.Column(db.Integer, primary_key=True)
+    theme = db.Column(db.String(20), nullable=False, default="light")
+    items_per_page = db.Column(db.Integer, nullable=False, default=25)
+    date_format = db.Column(db.String(20), nullable=False, default="dd/mm/yyyy")
+    email_notifications = db.Column(db.Boolean, nullable=False, default=True)
+    sms_notifications = db.Column(db.Boolean, nullable=False, default=True)
+    contribution_reminders = db.Column(db.Boolean, nullable=False, default=True)
+    group_updates = db.Column(db.Boolean, nullable=False, default=True)
+    payout_alerts = db.Column(db.Boolean, nullable=False, default=True)
+    meeting_reminders = db.Column(db.Boolean, nullable=False, default=True)
+
+    def __repr__(self):
+        return f"<Settings {self.theme}>"
+
+
 class Contribution(db.Model):
     __tablename__ = "contributions"
 
@@ -80,4 +98,20 @@ class Payout(db.Model):
 
     def __repr__(self):
         return f"<Payout {self.beneficiary_name}: {self.amount}>"
+
+
+class Notification(db.Model):
+    __tablename__ = "notifications"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    recipient = db.Column(db.String(120), nullable=False)
+    notification_type = db.Column(db.String(50), nullable=False, default="In-App")
+    priority = db.Column(db.String(20), nullable=False, default="Medium")
+    status = db.Column(db.String(20), nullable=False, default="Unread")
+    created_at = db.Column(db.String(30), nullable=False)
+
+    def __repr__(self):
+        return f"<Notification {self.title} to {self.recipient}>"
 

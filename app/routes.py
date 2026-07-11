@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from . import db
-from .models import Contribution, Group, Member, Payout, User
+from .models import Contribution, Group, Member, Notification, Payout, Settings, User
 
 main = Blueprint("main", __name__)
 
@@ -276,7 +278,88 @@ def add_contribution():
 
 @main.route("/reports")
 def reports():
-    return render_template("reports.html")
+    total_members = Member.query.count()
+    total_groups = Group.query.count()
+    active_groups = Group.query.filter_by(status="Active").count()
+    total_contributions = Contribution.query.count()
+    total_contribution_amount = db.session.query(db.func.coalesce(db.func.sum(Contribution.amount), 0.0)).scalar() or 0.0
+    total_payouts = Payout.query.count()
+    total_payout_amount = db.session.query(db.func.coalesce(db.func.sum(Payout.amount), 0.0)).scalar() or 0.0
+    pending_payments = Payout.query.filter_by(status="Pending").count()
+    groups = Group.query.order_by(Group.group_name.asc()).all()
+
+    contributions = Contribution.query.order_by(Contribution.payment_date.desc()).all()
+    monthly_data = {}
+    for contribution in contributions:
+        if not contribution.payment_date:
+            continue
+
+        try:
+            date_obj = datetime.strptime(contribution.payment_date, "%Y-%m-%d")
+            month_key = date_obj.strftime("%Y-%m")
+            month_label = date_obj.strftime("%B %Y")
+        except ValueError:
+            month_key = contribution.payment_date[:7]
+            month_label = month_key
+
+        month_info = monthly_data.setdefault(
+            month_key,
+            {
+                "month": month_label,
+                "member_names": set(),
+                "total_amount": 0.0,
+                "payment_count": 0,
+            },
+        )
+        month_info["member_names"].add(contribution.member_name)
+        month_info["total_amount"] += contribution.amount
+        month_info["payment_count"] += 1
+
+    monthly_contributions = []
+    for key in sorted(monthly_data.keys(), reverse=True):
+        month_info = monthly_data[key]
+        monthly_contributions.append(
+            {
+                "month": month_info["month"],
+                "contributors": len(month_info["member_names"]),
+                "total_amount": month_info["total_amount"],
+                "average": month_info["total_amount"] / month_info["payment_count"] if month_info["payment_count"] else 0,
+            }
+        )
+
+    contributor_data = {}
+    for contribution in contributions:
+        key = (contribution.member_name, contribution.group_name)
+        entry = contributor_data.setdefault(
+            key,
+            {
+                "member_name": contribution.member_name,
+                "group_name": contribution.group_name,
+                "total_amount": 0.0,
+                "payment_count": 0,
+            },
+        )
+        entry["total_amount"] += contribution.amount
+        entry["payment_count"] += 1
+
+    top_contributors = sorted(contributor_data.values(), key=lambda item: item["total_amount"], reverse=True)[:5]
+    payout_history = Payout.query.order_by(Payout.payout_date.desc()).limit(5).all()
+
+    return render_template(
+        "reports.html",
+        total_members=total_members,
+        total_groups=total_groups,
+        active_groups=active_groups,
+        total_contributions=total_contributions,
+        total_contribution_amount=total_contribution_amount,
+        total_payouts=total_payouts,
+        total_payout_amount=total_payout_amount,
+        pending_payments=pending_payments,
+        monthly_contributions=monthly_contributions,
+        top_contributors=top_contributors,
+        payout_history=payout_history,
+        groups=groups,
+    )
 
 
 @main.route("/payouts")
@@ -378,17 +461,123 @@ def add_payout_page():
 
 @main.route("/notifications")
 def notifications():
-    return render_template("notifications.html")
+    notifications = Notification.query.order_by(Notification.id.desc()).all()
+    return render_template("notifications.html", notifications=notifications)
 
 
-@main.route("/send-notification")
+@main.route("/send-notification", methods=["GET", "POST"])
 def send_notification_page():
-    return render_template("send_notification.html")
+    members = Member.query.order_by(Member.full_name.asc()).all()
+    groups = Group.query.order_by(Group.group_name.asc()).all()
+
+    if request.method == "POST":
+        recipient = request.form.get("recipient", "").strip()
+        notification_type = request.form.get("notification_type", "In-App").strip()
+        title = request.form.get("subject", "").strip()
+        message = request.form.get("message", "").strip()
+        priority = request.form.get("priority", "Medium").strip()
+
+        if not recipient or not title or not message:
+            flash("Please fill in all required notification fields.", "error")
+            return render_template("send_notification.html", members=members, groups=groups)
+
+        if recipient != "All Members":
+            recipient_exists = any(m.full_name == recipient for m in members) or any(g.group_name == recipient for g in groups)
+            if not recipient_exists:
+                flash("Please select a valid recipient.", "error")
+                return render_template("send_notification.html", members=members, groups=groups)
+
+        notification = Notification(
+            title=title,
+            message=message,
+            recipient=recipient,
+            notification_type=notification_type,
+            priority=priority,
+            status="Unread",
+            created_at=datetime.utcnow().strftime("%Y-%m-%d %H:%M"),
+        )
+        db.session.add(notification)
+        db.session.commit()
+
+        flash("Notification sent successfully.", "success")
+        return redirect(url_for("main.notifications"))
+
+    return render_template("send_notification.html", members=members, groups=groups)
 
 
-@main.route("/settings")
+@main.route("/settings", methods=["GET", "POST"])
 def settings():
-    return render_template("settings.html")
+    user = User.query.order_by(User.id.asc()).first()
+    if not user:
+        user = User(full_name="Administrator", email="admin@example.com", phone="")
+        user.set_password("admin")
+        db.session.add(user)
+        db.session.commit()
+
+    settings_item = Settings.query.first()
+    if not settings_item:
+        settings_item = Settings()
+        db.session.add(settings_item)
+        db.session.commit()
+
+    if request.method == "POST":
+        full_name = request.form.get("full_name", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        phone = request.form.get("phone", "").strip()
+        current_password = request.form.get("current_password", "")
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+        theme = request.form.get("theme", "light")
+        items_per_page = request.form.get("items_per_page", settings_item.items_per_page)
+        date_format = request.form.get("date_format", "dd/mm/yyyy")
+        email_notif = bool(request.form.get("email_notif"))
+        sms_notif = bool(request.form.get("sms_notif"))
+        contribution_reminders = bool(request.form.get("contribution_reminders"))
+        group_updates = bool(request.form.get("group_updates"))
+        payout_alerts = bool(request.form.get("payout_alerts"))
+        meeting_reminders = bool(request.form.get("meeting_reminders"))
+
+        if not full_name or not email:
+            flash("Full name and email are required.", "error")
+            return render_template("settings.html", user=user, settings=settings_item)
+
+        user.full_name = full_name
+        user.email = email
+        user.phone = phone
+
+        if current_password or new_password or confirm_password:
+            if not current_password or not new_password or not confirm_password:
+                flash("Fill in all password fields to change your password.", "error")
+                return render_template("settings.html", user=user, settings=settings_item)
+            if not user.check_password(current_password):
+                flash("Current password is incorrect.", "error")
+                return render_template("settings.html", user=user, settings=settings_item)
+            if new_password != confirm_password:
+                flash("New passwords do not match.", "error")
+                return render_template("settings.html", user=user, settings=settings_item)
+            user.set_password(new_password)
+            flash("Password updated successfully.", "success")
+
+        try:
+            items_per_page = int(items_per_page)
+        except (ValueError, TypeError):
+            items_per_page = settings_item.items_per_page
+
+        settings_item.theme = theme
+        settings_item.items_per_page = items_per_page
+        settings_item.date_format = date_format
+        settings_item.email_notifications = email_notif
+        settings_item.sms_notifications = sms_notif
+        settings_item.contribution_reminders = contribution_reminders
+        settings_item.group_updates = group_updates
+        settings_item.payout_alerts = payout_alerts
+        settings_item.meeting_reminders = meeting_reminders
+
+        db.session.commit()
+        flash("Settings saved successfully.", "success")
+        return redirect(url_for("main.settings"))
+
+    return render_template("settings.html", user=user, settings=settings_item)
 
 
 @main.route("/logout")

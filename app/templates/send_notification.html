@@ -12,15 +12,17 @@
         <h2>Send Notification</h2>
         <p class="muted">Compose and send a notification to members or groups.</p>
 
-        <form>
+        <form method="POST" action="{{ url_for('main.send_notification_page') }}">
           <label for="recipient">Recipient</label>
           <select id="recipient" name="recipient" required>
             <option value="">Select recipient</option>
             <option value="All Members">All Members</option>
-            <option value="Group A">Group A</option>
-            <option value="Group B">Group B</option>
-            <option value="John Mwangi">John Mwangi</option>
-            <option value="Grace Njeri">Grace Njeri</option>
+            {% for group in groups %}
+            <option value="{{ group.group_name }}">{{ group.group_name }}</option>
+            {% endfor %}
+            {% for member in members %}
+            <option value="{{ member.full_name }}">{{ member.full_name }}</option>
+            {% endfor %}
           </select>
 
           <label for="notification_type">Notification Type</label>

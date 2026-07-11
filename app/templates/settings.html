@@ -119,29 +119,27 @@
         </header>
 
         <div class="settings-grid" style="max-width: 900px; margin: 0 auto;">
-          <section class="settings-section">
-            <h3>Profile Information</h3>
-            <form>
+          <form method="POST" action="{{ url_for('main.settings') }}">
+            <section class="settings-section">
+              <h3>Profile Information</h3>
               <div class="form-row">
                 <div class="form-group">
                   <label for="full_name">Full Name</label>
-                  <input id="full_name" name="full_name" type="text" placeholder="Your full name" value="John Mwangi" />
+                  <input id="full_name" name="full_name" type="text" placeholder="Your full name" value="{{ user.full_name }}" />
                 </div>
                 <div class="form-group">
                   <label for="email">Email Address</label>
-                  <input id="email" name="email" type="email" placeholder="your.email@example.com" value="john.mwangi@example.com" />
+                  <input id="email" name="email" type="email" placeholder="your.email@example.com" value="{{ user.email }}" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input id="phone" name="phone" type="tel" placeholder="+254 700 000000" value="+254 700 123456" />
+                <input id="phone" name="phone" type="tel" placeholder="+254 700 000000" value="{{ user.phone }}" />
               </div>
-            </form>
-          </section>
+            </section>
 
-          <section class="settings-section">
-            <h3>Change Password</h3>
-            <form>
+            <section class="settings-section">
+              <h3>Change Password</h3>
               <div class="form-group">
                 <label for="current_password">Current Password</label>
                 <input id="current_password" name="current_password" type="password" placeholder="Enter your current password" />
@@ -154,76 +152,72 @@
                 <label for="confirm_password">Confirm Password</label>
                 <input id="confirm_password" name="confirm_password" type="password" placeholder="Confirm your new password" />
               </div>
-            </form>
-          </section>
+            </section>
 
-          <section class="settings-section">
-            <h3>System Preferences</h3>
-            <form>
+            <section class="settings-section">
+              <h3>System Preferences</h3>
               <div class="form-group">
                 <label for="theme">Theme</label>
                 <select id="theme" name="theme">
-                  <option value="light">Light Mode</option>
-                  <option value="dark">Dark Mode</option>
-                  <option value="auto">Auto (System Default)</option>
+                  <option value="light" {% if settings.theme == 'light' %}selected{% endif %}>Light Mode</option>
+                  <option value="dark" {% if settings.theme == 'dark' %}selected{% endif %}>Dark Mode</option>
+                  <option value="auto" {% if settings.theme == 'auto' %}selected{% endif %}>Auto (System Default)</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="items_per_page">Items Per Page</label>
                 <select id="items_per_page" name="items_per_page">
-                  <option value="10">10</option>
-                  <option value="25" selected>25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
+                  <option value="10" {% if settings.items_per_page == 10 %}selected{% endif %}>10</option>
+                  <option value="25" {% if settings.items_per_page == 25 %}selected{% endif %}>25</option>
+                  <option value="50" {% if settings.items_per_page == 50 %}selected{% endif %}>50</option>
+                  <option value="100" {% if settings.items_per_page == 100 %}selected{% endif %}>100</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="date_format">Date Format</label>
                 <select id="date_format" name="date_format">
-                  <option value="dd/mm/yyyy" selected>DD/MM/YYYY</option>
-                  <option value="mm/dd/yyyy">MM/DD/YYYY</option>
-                  <option value="yyyy-mm-dd">YYYY-MM-DD</option>
+                  <option value="dd/mm/yyyy" {% if settings.date_format == 'dd/mm/yyyy' %}selected{% endif %}>DD/MM/YYYY</option>
+                  <option value="mm/dd/yyyy" {% if settings.date_format == 'mm/dd/yyyy' %}selected{% endif %}>MM/DD/YYYY</option>
+                  <option value="yyyy-mm-dd" {% if settings.date_format == 'yyyy-mm-dd' %}selected{% endif %}>YYYY-MM-DD</option>
                 </select>
               </div>
-            </form>
-          </section>
+            </section>
 
-          <section class="settings-section">
-            <h3>Notification Preferences</h3>
-            <form>
+            <section class="settings-section">
+              <h3>Notification Preferences</h3>
               <div class="checkbox-group">
                 <div class="checkbox-item">
-                  <input id="email_notif" name="email_notif" type="checkbox" checked />
+                  <input id="email_notif" name="email_notif" type="checkbox" {% if settings.email_notifications %}checked{% endif %} />
                   <label for="email_notif">Receive Email Notifications</label>
                 </div>
                 <div class="checkbox-item">
-                  <input id="sms_notif" name="sms_notif" type="checkbox" checked />
+                  <input id="sms_notif" name="sms_notif" type="checkbox" {% if settings.sms_notifications %}checked{% endif %} />
                   <label for="sms_notif">Receive SMS Notifications</label>
                 </div>
                 <div class="checkbox-item">
-                  <input id="contribution_reminders" name="contribution_reminders" type="checkbox" checked />
+                  <input id="contribution_reminders" name="contribution_reminders" type="checkbox" {% if settings.contribution_reminders %}checked{% endif %} />
                   <label for="contribution_reminders">Contribution Payment Reminders</label>
                 </div>
                 <div class="checkbox-item">
-                  <input id="group_updates" name="group_updates" type="checkbox" checked />
+                  <input id="group_updates" name="group_updates" type="checkbox" {% if settings.group_updates %}checked{% endif %} />
                   <label for="group_updates">Group Updates and Announcements</label>
                 </div>
                 <div class="checkbox-item">
-                  <input id="payout_alerts" name="payout_alerts" type="checkbox" checked />
+                  <input id="payout_alerts" name="payout_alerts" type="checkbox" {% if settings.payout_alerts %}checked{% endif %} />
                   <label for="payout_alerts">Payout Alerts</label>
                 </div>
                 <div class="checkbox-item">
-                  <input id="meeting_reminders" name="meeting_reminders" type="checkbox" checked />
+                  <input id="meeting_reminders" name="meeting_reminders" type="checkbox" {% if settings.meeting_reminders %}checked{% endif %} />
                   <label for="meeting_reminders">Meeting Reminders</label>
                 </div>
               </div>
-            </form>
-          </section>
+            </section>
 
-          <div class="button-group">
-            <a href="{{ url_for('main.dashboard') }}" class="action-btn" style="display: inline-block; padding: 10px 16px; border-radius: 8px; text-decoration: none;">Cancel</a>
-            <button type="submit" class="add-btn" onclick="alert('Settings saved successfully!')">Save Changes</button>
-          </div>
+            <div class="button-group">
+              <a href="{{ url_for('main.dashboard') }}" class="action-btn" style="display: inline-block; padding: 10px 16px; border-radius: 8px; text-decoration: none;">Cancel</a>
+              <button type="submit" class="add-btn">Save Changes</button>
+            </div>
+          </form>
         </div>
       </main>
     </div>
