@@ -1,4 +1,3 @@
-
 # maCHA Management System
 
 > A modern web-based Chama (Savings & Investment Group) Management System built using **Python**, **Flask**, **SQLite**, **HTML5**, **CSS3**, and **JavaScript**.
